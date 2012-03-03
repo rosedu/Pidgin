@@ -672,9 +672,6 @@ pidgin_pounce_editor_show(PurpleAccount *account, const char *name,
 		= gtk_check_button_new_with_mnemonic(_("Ope_n an IM window"));
 	dialog->popup
 		= gtk_check_button_new_with_mnemonic(_("_Pop up a notification"));
-	dialog->set_date
-		= gtk_check_button_new_with_mnemonic(_("Set a _date for pounce
-					expiration"));
 	dialog->send_msg
 		= gtk_check_button_new_with_mnemonic(_("Send a _message"));
 	dialog->exec_cmd
@@ -686,7 +683,6 @@ pidgin_pounce_editor_show(PurpleAccount *account, const char *name,
 	reset_send_msg_entry(dialog, NULL);
 	dialog->exec_cmd_entry    = gtk_entry_new();
 	dialog->popup_entry       = gtk_entry_new();
-	dialog->set_date          = gtk_entry_new();
 	dialog->exec_cmd_browse   = gtk_button_new_with_mnemonic(_("Brows_e..."));
 	dialog->play_sound_entry  = gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(dialog->play_sound_entry), _("(default)"));
@@ -698,7 +694,6 @@ pidgin_pounce_editor_show(PurpleAccount *account, const char *name,
 	gtk_widget_set_sensitive(send_msg_imhtml,           FALSE);
 	gtk_widget_set_sensitive(dialog->exec_cmd_entry,    FALSE);
 	gtk_widget_set_sensitive(dialog->popup_entry,       FALSE);
-	gtk_widget_set_sensitive(dialog->set_date,          FALSE);
 	gtk_widget_set_sensitive(dialog->exec_cmd_browse,   FALSE);
 	gtk_widget_set_sensitive(dialog->play_sound_entry,  FALSE);
 	gtk_widget_set_sensitive(dialog->play_sound_browse, FALSE);
