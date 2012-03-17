@@ -1,0 +1,62 @@
+# git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+# *~
+Makefile
+Doxyfile
+config.h
+config.log
+config.status
+.deps/
+*.pc
+*.PL
+*.apspec
+libpurple/plugins/perl/common/Makefile.PL
+libtool
+pidgin.apspec
+pidgin/plugins/perl/common/Makefile.PL
+po/Makefile.in
+po/POTFILES
+po/stamp-it
+stamp-h1
+doc/
+*.o
+*.so
+*.ar
+*.lo
+*.la
+po/
+/pidgin/plugins/perl/
+/libpurple/plugins/perl/
+*.desktop
+.libs/
+autom4te.cache/
+finch/finch
+libpurple/dbus-bindings.c
+libpurple/dbus-signals.c
+libpurple/dbus-types.c
+libpurple/example/nullclient
+libpurple/gconf/purple.schemas
+libpurple/plugins/dbus-example-bindings.c
+libpurple/purple-client-bindings.c
+libpurple/purple-client-bindings.h
+libpurple/purple-client-example
+pidgin/pidgin
+pidgin/plugins/musicmessaging/music-messaging-bindings.c
+bin/
+etc/
+include/
+lib/
+share/aclocal/
+share/icons/
+share/locale/
+share/man/
+share/pixmaps/
+share/purple/
+share/sounds/purple/
+.*.sw*
+
+
+
