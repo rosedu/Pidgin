@@ -80,7 +80,7 @@ record_pounce(OfflineMsg *offline)
 	PurplePounceEvent event;
 	PurplePounceOption option;
 	PurpleConversation *conv;
-
+	char *temp;
 
 	event = PURPLE_POUNCE_SIGNON;
 	option = PURPLE_POUNCE_OPTION_NONE;
@@ -97,18 +97,19 @@ record_pounce(OfflineMsg *offline)
 	purple_conv_im_write(PURPLE_CONV_IM(conv), offline->who, offline->message,
 				PURPLE_MESSAGE_SEND, time(NULL));
 
-
 	pounce = purple_pounce_new(purple_core_get_ui(), offline->account, offline->who,
 					event, option);
 
 	purple_pounce_action_set_enabled(pounce, "send-message", TRUE);
 
-	offline->message = g_strdup_printf("(%s) %s", _("Offline message"),
+	temp = g_strdup_printf("(%s) %s", _("Offline message"),
 			offline->message);
 
-	purple_pounce_action_set_attribute(pounce, "send-message", "message", offline->message);
+	purple_pounce_action_set_attribute(pounce, "send-message", "message",
+			temp);
 
 	discard_data(offline);
+	g_free(temp);
 }
 
 static void
@@ -156,7 +157,6 @@ sending_msg_cb(PurpleAccount *account, const char *who, char **message, gpointer
 
 	if (purple_prefs_get_bool(PREF_ALWAYS) || setting == OFFLINE_MSG_YES)
 		record_pounce(offline);
-
 	else if (setting == OFFLINE_MSG_NONE)
 	{
 		char *ask;
