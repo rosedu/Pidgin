@@ -97,6 +97,13 @@ typedef struct _doodle_session
 	gchar *imv_key;
 } doodle_session;
 
+typedef struct _PurpleRequestAcceptData
+{
+		PurpleConnection *gc;
+		const char *from;
+		const char *imv_key;
+} PurpleRequestAcceptData;
+
 /******************************************************************************
  * API
  *****************************************************************************/

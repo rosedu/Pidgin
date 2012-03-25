@@ -129,47 +129,54 @@ void yahoo_doodle_initiate(PurpleConnection *gc, const char *name)
 
 }
 
-static void yahoo_doodle_command_got_request(PurpleConnection *gc, const char *from, const char *imv_key)
+static int
+yahoo_doodle_accept_request(PurpleRequestAcceptData *data)
 {
-	PurpleAccount *account;
 	PurpleWhiteboard *wb;
+	PurpleAccount *account;
 
-	purple_debug_info("yahoo", "doodle: Got Request (%s)\n", from);
-
-	account = purple_connection_get_account(gc);
-
-	/* Only handle this if local client requested Doodle session (else local
-	 * client would have sent one)
-	 */
-	wb = purple_whiteboard_get_session(account, from);
+	account = purple_connection_get_account(data->gc);
+	wb = purple_whiteboard_get_session(account, data->from);
 
 	/* If a session with the remote user doesn't exist */
 	if(wb == NULL)
 	{
 		doodle_session *ds;
-		/* Ask user if they wish to accept the request for a doodle session */
-		/* TODO Ask local user to start Doodle session with remote user */
-		/* NOTE This if/else statement won't work right--must use dialog
-		 * results
-		 */
 
-		/* char dialog_message[64];
-		g_sprintf(dialog_message, "%s is requesting to start a Doodle session with you.", from);
-
-		purple_notify_message(NULL, PURPLE_NOTIFY_MSG_INFO, "Doodle",
-		dialog_message, NULL, NULL, NULL);
-		*/
-
-		wb = purple_whiteboard_create(account, from, DOODLE_STATE_REQUESTED);
+		wb = purple_whiteboard_create(account, data->from, DOODLE_STATE_REQUESTED);
 		ds = wb->proto_data;
-		ds->imv_key = g_strdup(imv_key);
+		ds->imv_key = g_strdup(data->imv_key);
 
-		yahoo_doodle_command_send_ready(gc, from, imv_key);
+		yahoo_doodle_command_send_ready(data->gc, data->from,
+				data->imv_key);
 	}
 
 	/* TODO Might be required to clear the canvas of an existing doodle
-	 * session at this point
+	* session at this point
+	*/
+	return 0;
+}
+
+static void yahoo_doodle_command_got_request(PurpleConnection *gc, const char *from, const char *imv_key)
+{
+	PurpleRequestAcceptData *data = g_new0(PurpleRequestAcceptData, 1);
+
+	purple_debug_info("yahoo", "doodle: Got Request (%s)\n", from);
+
+	data->gc = gc;
+	data->from = g_strdup(from);
+	data->imv_key = g_strdup(imv_key);
+
+	/* Only handle this if local client requested Doodle session (else local
+	 * client would have sent one)
 	 */
+	char dialog_message[64];
+	g_sprintf(dialog_message, "%s is requesting to start a Doodle"
+			"session with you.(bla)", from);
+	purple_request_accept_cancel(NULL, "TITLUI", dialog_message, NULL,
+		PURPLE_DEFAULT_ACTION_NONE, NULL, NULL, NULL,
+		data, G_CALLBACK(yahoo_doodle_accept_request),
+		NULL);
 }
 
 static void yahoo_doodle_command_got_ready(PurpleConnection *gc, const char *from, const char *imv_key)
