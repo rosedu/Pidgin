@@ -250,7 +250,7 @@ def myim(uri):
         assert False, "Not implemented"
 
 def sip(uri):
-    protocol = "prpl-simple"
+    protocol = "prpl-sipe"
     match = re.match(r"^sip:(.*)", uri)
     if not match:
         print "Invalid sip URI: %s" % uri
